@@ -1,0 +1,95 @@
+//----------------------------------------------------------------------------------------------------;
+var fileNm = "js/b2link_ui/el_select/window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value.js";
+//if( console ) console.log( "[ S ] - " + fileNm + "----------" );
+//----------------------------------------------------------------------------------------------------;
+
+/**
+ * @function
+ * @param {String} nm_db Database Name
+ * @param {String} nm_col Database's Collection Name
+ * @param {Boolean} bReload false
+ * @return {HTMLSelectElement}
+ */
+window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value = function( nm_db, nm_col, bReload )
+{
+	//////////window.TtwLog.timeStamp( "---- [ S ] - window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value():{HTMLSelectElement}----------" );
+
+	var r = [];
+	var url = "./ui_include/select-db-value/" + nm_db + "/" + nm_col + ".list";
+	try
+	{
+		var a = window.b2link.xhr.reqSync_JSON( url );
+		var i=0, iLen=a.length;
+		for( ; i<iLen; ++i )
+			r.push( window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value._loadURL( a[ i ], bReload ) );
+	}
+	catch( er )
+	{
+	}
+
+	//////////window.TtwLog.timeStamp( "---- [ E ] - window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value():{HTMLSelectElement}----------" );
+
+	return r;
+};
+window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value._disposeStore = function()
+{
+	//////////window.TtwLog.timeStamp( "---- [ S ] - window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value._disposeStore():void----------" );
+
+	var f0 = window.b2link.element.dispose;
+	var t = window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value._store;
+	for( var s in t )
+	{
+		f0( t[ s ] );
+		t[ s ] = null;
+		delete t[ s ];
+	}
+
+	//////////window.TtwLog.timeStamp( "---- [ E ] - window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value._disposeStore():void----------" );
+};
+window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value._loadURL = function( url, bReload )
+{
+	//////////window.TtwLog.timeStamp( "---- [ S ] - window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value._loadURL():{HTMLSelectElement}----------" );
+
+	if( undefined == bReload ) bReload = false;
+
+	var r = window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value._store[ url ];
+	if( r && !bReload ) return r;
+
+	try
+	{
+		r = window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value._store[ url ]
+		  = window.b2link.util.importHTML( url,  window.b2link.STATIC.CONST.ROOT_DIV.ID_BACKGROUND );
+	}
+	catch( er )
+	{
+		window.TtwLog.error( "window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value._loadURL Error : " + er );
+		var r = null;
+	}
+
+	console.log( r );
+
+	//////////window.TtwLog.timeStamp( "---- [ E ] - window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value._loadURL():{HTMLSelectElement}----------" );
+	return r;
+};
+window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value._store = {};
+window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value.reloadAll = function()
+{
+	//////////window.TtwLog.timeStamp( "---- [ S ] - window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value.reloadAll():void----------" );
+
+	var f0 = window.b2link.element.dispose;
+	var f1 = window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value._loadURL;
+	var t = window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value._store;
+	for( var s in t )
+	{
+		f0( t[ s ] );
+		t[ s ] = null;
+		delete t[ s ];
+		f1( s );
+	}
+
+	//////////window.TtwLog.timeStamp( "---- [ E ] - window.b2link_ui.el_select.getEL_SelectFromDB__search_field__value.reloadAll():void----------" );
+};
+
+//----------------------------------------------------------------------------------------------------;
+//if( console ) console.log( "[ E ] - " + fileNm + "----------" );
+//----------------------------------------------------------------------------------------------------;

@@ -1,2 +1,1 @@
 # Development-Browser-Libraries
-[ Mobilian ] - 

@@ -1,0 +1,135 @@
+//----------------------------------------------------------------------------------------------------;
+//var fileNm = "js/b2link_ui/selector/window.b2link_ui.selector.table.js";
+//if( console ) console.log( "[ S ] - " + fileNm + "----------" );
+//----------------------------------------------------------------------------------------------------;
+
+/**
+ * @function
+ * @param {Object} d
+ * <code>
+ * {
+ *	"key" : ""
+ *	, "nm_db" : ""
+ *	, "nm_col" : ""
+ *	, "fn" : {
+ *		"cb_mClick" : function( e ){}
+ *		, "cb_mDoubleClick" : function( e ){}
+ *	}
+ * }
+ * </code>
+ * @return {Array} [ {HTMLElement}, {HTMLElementController} ]
+ */
+window.b2link_ui.selector.table = function( d )
+{
+	window.TtwLog.timeStamp( "---- [ S ] - window.b2link_ui.selector.table():{Array}----------" );
+
+	/*/
+	var p = {
+		url : window.b2link.STATIC.CONFIG.URL.UI.BASE + "static/selector/common/table/"
+		, nm : "static_selector_common_table"
+		, key : d.key
+	};
+	var id = "static_ui_selector_table-" + d.nm_db + "-" + d.nm_col;
+	SUtilTemplateHTML.addCSS__URLToHead( "./css_ui/" + id + ".css" );
+
+	//var o = window.b2link.ui.add_HTML_JS__CheckStaticUI( p, arguments[ 0 ] );
+	/*/
+	var p = {
+		url : window.b2link.STATIC.CONFIG.URL.UI.BASE + "static/selector/common/table/"
+		, nm : "static_selector_common_table"
+		, css_url : "./css_ui/"
+		, css_front_nm : "static_ui_common-"
+		, key : d.key
+	};
+	//*/
+
+	//o[ 0 ] : element, o[ 1 ] : element controller;
+	var o = window.b2link_ui.addUI__DefaultModalTrue( p, arguments[ 0 ] );
+
+	/*/
+		o[ 0 ].id = id;
+		o[ 1 ].setData( d );
+	/*/
+	var elCtrl = o[ 1 ];
+	if( !elCtrl._bInitialize )
+	{
+		//o[ 0 ].id = id;
+		//삭제하기 - 20170201 - 송선우 - 개별 less 정의 되면 제거하기;
+		o[ 0 ].className = "static_ui_common-static_selector_common_table";
+
+		//DYNAMIC-STYLE;
+		o[ 0 ].style.maxWidth = window.document.body.offsetWidth - 200 + "px";
+		//div - content;
+		o[ 0 ].children[ 1 ].style.maxHeight = window.document.body.offsetHeight - 200 + "px";
+
+		elCtrl._bInitialize = true;
+		elCtrl.setData( d );
+	}
+	//*/
+
+	window.TtwLog.timeStamp( "---- [ E ] - window.b2link_ui.selector.table():{Array}----------" );
+
+	return o;
+};
+
+//----------------------------------------------------------------------------------------------------;
+//----------------------------------------------------------------------------------------------------;
+//----------------------------------------------------------------------------------------------------;
+//----------------------------------------------------------------------------------------------------;
+//----------------------------------------------------------------------------------------------------;
+
+var db = window.b2link_ui.selector.db;
+
+//과거 API;
+//window.b2link_ui.staticSelectorTable = {};
+
+for( var s in db )
+{
+	window.b2link_ui.selector.table[ s ] = function( d )
+	{
+		window.TtwLog.timeStamp( "---- [ S ] - window.b2link_ui.selector.table[ s ]:{Array}----------" );
+
+		var p = d ? d : {};
+			p.nm_db = arguments.callee._nm_db;
+			p.nm_col = d.nm_col;
+			p.key = "SUI_SELECTOR_TABLE$" + p.nm_db + "." + p.nm_col;
+			p.fn = d.fn ? d.fn : { cb_mClick : null, cb_mDoubleClick : null };
+
+		var o = window.b2link_ui.selector.table( p );
+
+		window.TtwLog.timeStamp( "---- [ E ] - window.b2link_ui.selector.table[ s ]:{Array}----------" );
+		return o;
+	};
+	window.b2link_ui.selector.table[ s ]._nm_db = s;
+
+	var a = db[ s ];
+	var i=0, iLen=a.length;
+	for( ; i<iLen; ++i )
+	{
+		window.b2link_ui.selector.table[ s ][ a[ i ] ] = function( d )
+		{
+			window.TtwLog.timeStamp( "---- [ S ] - window.b2link_ui.selector.table[ s ][ a[ i ] ]:{Array}----------" );
+
+			var t = arguments.callee;
+
+			d = d ? d : {};
+			d.nm_db = t._nm_db;
+			d.nm_col = t._nm_col;
+			console.log( d.nm_db + " - " + d.nm_col );
+
+			var o = window.b2link_ui.selector.table[ d.nm_db ]( d, d );
+
+			window.TtwLog.timeStamp( "---- [ E ] - window.b2link_ui.selector.table[ s ][ a[ i ] ]:{Array}----------" );
+			return o;
+		};
+		window.b2link_ui.selector.table[ s ][ a[ i ] ]._nm_db = s;
+		window.b2link_ui.selector.table[ s ][ a[ i ] ]._nm_col = a[ i ];
+
+		//과거 API;
+		//window.b2link_ui.staticSelectorTable[ a[ i ] ] = window.b2link_ui.selector.table[ s ][ a[ i ] ];
+	}
+}
+
+//----------------------------------------------------------------------------------------------------;
+//if( console ) console.log( "[ E ] - " + fileNm + "----------" );
+//----------------------------------------------------------------------------------------------------;

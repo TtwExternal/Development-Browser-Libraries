@@ -1,0 +1,64 @@
+//----------------------------------------------------------------------------------------------------;
+//var fileNm = "js/b2link_ui/complex_search_selector/window.b2link_ui.complex_search_selector.partner_type__person.js";
+//if( console ) console.log( "[ S ] - " + fileNm + "----------" );
+//----------------------------------------------------------------------------------------------------;
+
+(function(){
+
+	/**
+	 * @function
+	 * @param {Function} cbFunction function( selectedData ){}
+	 * @example
+	 * <code>
+		window.b2link_ui.complex_search_selector.partner_type__person( function( selectedData ){
+			console.log( selectedData );
+		});
+	 * </code>
+	 */
+	var _ = window.b2link_ui.complex_search_selector.partner_type__person = function( cbFunction )
+	{
+		//window.TtwLog.timeStamp( "---- [ S ] - window.b2link_ui.complex_search_selector.partner_type__person():{void}----------" );
+
+		var _ = window.b2link_ui.complex_search_selector.partner_type__person;
+			_._cb0 = cbFunction;
+
+			_._elC0 = window.b2link_ui.selector.list.category.category_partner( window.b2link_ui.CONST.PARAMETER.UI_DISPLAY_FALSE )[ 1 ];
+			_._elC0.showAndModal_MoveCurrentChildren();
+			//_._elC0.showAndModal_Sync();
+			//_._elC0.req_data__first();
+
+			//category.category_partner 선택;
+			_._elC0.addEvent_mClick( _._f0 );
+
+		//window.TtwLog.timeStamp( "---- [ E ] - window.b2link_ui.complex_search_selector.partner_type__person():{void}----------" );
+	};
+	_._cb0;
+	_._elC0;
+	_._elC1;
+	_._elC2;
+	_._elC3;
+	_._p0 = { "partner_info.nm_col" : null };
+	_._f0 = function( li )
+	{
+		_._p0[ "partner_info.nm_col" ] = li.list_item_value.cd;
+		_._elC0.hideAndModal_Sync();
+
+		//partner.partner_person 검색;
+		_._elC3 = window.b2link_ui.search_selector.list.partner.partner_person()[ 1 ];
+		_._elC3.reqParam__fixed = _._p0;
+		_._elC3.req_data__first();
+		//_._elC3.req_dataCount();
+		_._elC3.addEvent_mClick( _._f1 );
+	};
+	_._f1 = function( li )
+	{
+		_._elC3.hideAndModal_MoveBGCLastChild();
+		if( _._cb0 ) _._cb0( li.list_item_value );
+		_._elC3.reqParam__fixed = null;
+	};
+
+})();
+
+//----------------------------------------------------------------------------------------------------;
+//if( console ) console.log( "[ E ] - " + fileNm + "----------" );
+//----------------------------------------------------------------------------------------------------;

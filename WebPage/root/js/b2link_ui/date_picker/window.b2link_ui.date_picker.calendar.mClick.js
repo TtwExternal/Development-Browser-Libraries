@@ -1,0 +1,35 @@
+//----------------------------------------------------------------------------------------------------;
+//var fileNm = "js/b2link_ui/date_picker/window.b2link_ui.date_picker.calendar.mClick.js";
+//if( console ) console.log( "[ S ] - " + fileNm + "----------" );
+//----------------------------------------------------------------------------------------------------;
+
+/**
+ * @function
+ * @param {Function} cb_Complete
+ * @param {Object} options { display : true, modal true }
+ * @example
+ * <code>
+	window.b2link_ui.date_picker.calendar.mClick( function( calendar ){
+		debugger;
+		console.log( calendar.getFormatDate( calendar.getDate(), "-" ) );
+	});
+ * </code>
+ */
+window.b2link_ui.date_picker.calendar.mClick = function( cb_Complete, options )
+{
+	window.TtwLog.timeStamp( "---- [ S ] - window.b2link_ui.date_picker.calendar.mClick():void----------" );
+
+	var c = window.b2link_ui.date_picker.calendar( { display : false } )[ 1 ];//HTMLElement's Controller;
+		c.calendar.gotoToday();
+		c.mClick( cb_Complete );
+
+	cb_Complete._ownerCtrl = c;
+	//cb_Complete._ownerCtrl.hideAndModal_MoveBGCLastChild();
+	c.showAndModal();
+
+	window.TtwLog.timeStamp( "---- [ E ] - window.b2link_ui.date_picker.calendar.mClick():void----------" );
+};
+
+//----------------------------------------------------------------------------------------------------;
+//if( console ) console.log( "[ E ] - " + fileNm + "----------" );
+//----------------------------------------------------------------------------------------------------;
